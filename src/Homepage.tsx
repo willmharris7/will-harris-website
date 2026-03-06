@@ -2,7 +2,7 @@ import Headshot from './assets/Headshot.png'
 import { Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-function App() {
+function Homepage() {
   return (
     <div className="container-fluid text-center">
       <Row>
@@ -48,4 +48,4 @@ function App() {
   )
 }
 
-export default App
+export default Homepage
