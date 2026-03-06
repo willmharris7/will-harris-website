@@ -1,15 +1,17 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Accordion, Button } from 'react-bootstrap'
 import { HouseFill } from 'react-bootstrap-icons'
+import { useImmer } from 'use-immer'
 
 function BetterEvents() {
-  const [message, setMessage] = useState<string | null>(null)
+  const [state, setState] = useImmer({ 
+    message: "Call not made" 
+  });
 
-  async function handleGetEvents() {
+  async function testPing() {
     const res = await fetch('/api/hello')
     const data = await res.json()
-    setMessage(data.message)
+    setState(draftState => { draftState.message = data.message; });
   }
 
   return (
@@ -53,9 +55,9 @@ function BetterEvents() {
         <Col xs={12} lg={2} data-id="blocklist">Blocklist</Col>
       </Row>
       <Row data-id="get-events" className="mt-5">
-        <Col data-id="get-events-button"><Button variant="outline-light" size="lg" onClick={handleGetEvents}>Get events</Button></Col>
+        <Col data-id="get-events-button"><Button variant="outline-light" size="lg" onClick={testPing}>Get events</Button></Col>
       </Row>
-      <Row data-id="meetup">{message}</Row>
+      <Row data-id="meetup">{state.message}</Row>
       <Row data-id="eventbrite"></Row>
     </div>
   )
