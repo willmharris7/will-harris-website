@@ -1,8 +1,17 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Accordion, Button } from 'react-bootstrap'
 import { HouseFill } from 'react-bootstrap-icons'
 
 function BetterEvents() {
+  const [message, setMessage] = useState<string | null>(null)
+
+  async function handleGetEvents() {
+    const res = await fetch('/api/hello')
+    const data = await res.json()
+    setMessage(data.message)
+  }
+
   return (
     <div className="container-fluid text-center fs-4">
       <Accordion data-id="tutorial">
@@ -44,9 +53,9 @@ function BetterEvents() {
         <Col xs={12} lg={2} data-id="blocklist">Blocklist</Col>
       </Row>
       <Row data-id="get-events" className="mt-5">
-        <Col data-id="get-events-button"><Button variant="outline-light" size="lg">Get events</Button></Col>
+        <Col data-id="get-events-button"><Button variant="outline-light" size="lg" onClick={handleGetEvents}>Get events</Button></Col>
       </Row>
-      <Row data-id="meetup"></Row>
+      <Row data-id="meetup">{message}</Row>
       <Row data-id="eventbrite"></Row>
     </div>
   )
