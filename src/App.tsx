@@ -4,19 +4,19 @@ function App() {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-12 col-lg-6 text-center border py-3">
-          <p>Hi there! I'm Will</p>
+        <div className="col-12 col-lg-6 text-center border py-5">
+          <p style={{fontSize: '4rem'}}>Hello! I'm Will</p>
         </div>
         <div className="col-12 col-lg-6 text-center border py-3">
-          <img src={Headshot} style={{width: '300px', height: '300px'}} />
+          <img src={Headshot} style={{width: '17rem', height: '17rem'}} />
         </div>
       </div>
       <div className="row">
         <div className="col-12 text-center border py-3">
           <p>
             For the past five years I've been a Digital Operations Manager at Adidas, focusing on website content and product data management.
-            I facilitate communication between business and development teams both here in Portland, OR and across the globe.
-            You can find some of my work at adidas.com
+            I facilitate communication between business and development teams here in Portland, OR and across the globe.
+            You can find some of my work at <a href="https://www.adidas.com" target="_blank" rel="noreferrer">adidas.com</a>
           </p>
           <p>
             In my free time, I build open-source products that can make your life a little easier. Check them out below. 
@@ -38,6 +38,9 @@ function App() {
           <p>Projects:</p>
           <p>BetterEvents: An improved user interface for Meetup and Eventbrite</p>
         </div>
+      </div>
+      <div className="row">
+        <div className="col-12 text-center border py-3">This site is made with React and Bootstrap. Hosted on Vercel.</div>
       </div>
     </div>
   )
