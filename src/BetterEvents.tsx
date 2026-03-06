@@ -1,5 +1,6 @@
-// import { Link } from 'react-router-dom'
-import { Row, Accordion } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import { Row, Col, Accordion, Button } from 'react-bootstrap'
+import { HouseFill } from 'react-bootstrap-icons'
 
 function BetterEvents() {
   return (
@@ -11,7 +12,7 @@ function BetterEvents() {
             <Row>
               <p>
                 Have you ever stared at a blank calendar wondering what to do with your weekend?
-                BetterEvents is an open-source web scraping application that improves the functionality of Meetup.com and Eventbrite.com to help you get out the door.
+                BetterEvents is an open-source web scraping tool that improves the functionality of Meetup.com and Eventbrite.com
               </p>
             </Row>
             <Row>
@@ -24,15 +25,27 @@ function BetterEvents() {
             </Row>
             <Row>
               <p>
-                Your blocklist is stored in your cookies, so please note this app will not work properly in Incognito mode.
+                Your blocklist is stored in your cookies, so this tool will not work properly in Incognito mode or across different browsers.
                 Currently only Portland is supported, but if you want to add another city just shoot me an email.
               </p>
             </Row>
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-      <Row data-id="ui"></Row>
-      <Row data-id="get-events"></Row>
+      <Row data-id="ui">
+        <Col xs={12} lg={2} className="mb-3" data-id="home-button"><Link to="/"><Button variant="outline-light" size="lg"><HouseFill /></Button></Link></Col>
+        <Col xs={12} lg={3} className="mb-3" data-id="date-selector"><input type="date" style={{ backgroundColor: '#211e1b', color: 'white', border: '1px solid white', borderRadius: '4px', padding: '4px', colorScheme: 'dark' }} /></Col>
+        <Col xs={12} lg={3} className="mb-3" data-id="time-selector"><input type="time" defaultValue="00:00" style={{ backgroundColor: '#211e1b', color: 'white', border: '1px solid white', borderRadius: '4px', padding: '4px', colorScheme: 'dark' }} /></Col>
+        <Col xs={12} lg={2} className="mb-3" data-id="city-selector">
+          <select style={{ backgroundColor: '#211e1b', color: 'white', border: '1px solid white', borderRadius: '4px', padding: '4px' }}>
+            <option value="portland">Portland</option>
+          </select>
+        </Col>
+        <Col xs={12} lg={2} data-id="blocklist">Blocklist</Col>
+      </Row>
+      <Row data-id="get-events" className="mt-5">
+        <Col data-id="get-events-button"><Button variant="outline-light" size="lg">Get events</Button></Col>
+      </Row>
       <Row data-id="meetup"></Row>
       <Row data-id="eventbrite"></Row>
     </div>
