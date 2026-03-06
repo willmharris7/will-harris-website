@@ -1,5 +1,6 @@
 import Headshot from './assets/Headshot.png'
 import { Row, Col } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 function App() {
   return (
@@ -37,7 +38,7 @@ function App() {
         </Col>
         <Col xs={12} lg={4} className="py-3">
           <p>Projects:</p>
-          <p>BetterEvents: An improved user interface for Meetup and Eventbrite</p>
+          <p><Link to="/betterevents">BetterEvents: An improved user interface for Meetup and Eventbrite</Link></p>
         </Col>
       </Row>
       <Row>
