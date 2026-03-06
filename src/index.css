@@ -3,6 +3,31 @@ body {
   color: white;
 }
 
+.accordion-item {
+  background-color: #211e1b;
+  border-color: #444;
+}
+
+.accordion-button {
+  background-color: #211e1b;
+  color: white;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #2e2a26;
+  color: white;
+  box-shadow: none;
+}
+
+.accordion-button::after {
+  filter: invert(1);
+}
+
+.accordion-body {
+  background-color: #211e1b;
+  color: white;
+}
+
 a:link {
   color: #60a5fa;
 }
