@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import * as cheerio from 'cheerio';
+import { writeFileSync } from 'fs';
 
 const BROWSERLESS_API_KEY = process.env.BROWSERLESS_API_KEY;
 
@@ -8,13 +9,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const next_day = new Date(date as string)
     next_day.setDate(next_day.getDate() +1)
     const next_day_iso = next_day.toISOString().split('T')[0];
-    const response = await fetch(`https://chrome.browserless.io/content?token=${BROWSERLESS_API_KEY}`, {
+    const meetupUrl = `https://www.meetup.com/find/?source=EVENTS&eventType=inPerson&location=us--or--${city}&customStartDate=${date}T03%3A00%3A00-05%3A00&customEndDate=${next_day_iso}T03%3A59%3A59-04%3A00&distance=twentyFiveMiles`;
+    const response = await fetch(`https://chrome.browserless.io/function?token=${BROWSERLESS_API_KEY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: `https://www.meetup.com/find/?source=EVENTS&eventType=inPerson&location=us--or--${city}&customStartDate=${date}T03%3A00%3A00-05%3A00&customEndDate=${next_day_iso}T03%3A59%3A59-04%3A00&distance=twentyFiveMiles`, waitForSelector: { selector: `a[data-event-label="Event Card"]` } }),
+        body: JSON.stringify({
+            code: `export default async ({ page, context }) => {
+                await page.goto(context.url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+                await page.waitForSelector('a[data-event-label="Event Card"]');
+                for (let i = 0; i < 5; i++) {
+                    await page.evaluate(() => window.scrollBy(0, window.innerHeight));
+                    await new Promise(r => setTimeout(r, 500));
+                }
+                return { data: await page.content(), type: 'application/html' };
+            }`,
+            context: { url: meetupUrl },
+        }),
     });
-    const html = await response.text();
-    const document = cheerio.load(html);
+    const html_json = await response.text();
+    writeFileSync('response.json', html_json);
+    const html_parsed = JSON.parse(html_json)
+    const document = cheerio.load(html_parsed.data);
     const card_data = document('a[data-event-label="Event Card"]').map((_, a) => ({
         href: document(a).attr('href'),
         img: document(a).find('img').attr('src'),
