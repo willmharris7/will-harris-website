@@ -7,8 +7,8 @@ function BetterEvents() {
   const [state, setState] = useImmer({ 
     date: new Date().toISOString().split('T')[0],
     time: "00:00",
-    message: "Call not sent",
-    city: "Portland"
+    city: "Portland",
+    message: "Call not sent"
   });
 
   async function testPing() {
