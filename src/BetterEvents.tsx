@@ -5,11 +5,14 @@ import { useImmer } from 'use-immer'
 
 function BetterEvents() {
   const [state, setState] = useImmer({ 
-    message: "Call not made" 
+    date: new Date().toISOString().split('T')[0],
+    time: "00:00",
+    message: "Call not sent",
+    city: "Portland"
   });
 
   async function testPing() {
-    const res = await fetch('/api/hello')
+    const res = await fetch(`/api/hello?date=${state.date}&time=${state.time}&city=${state.city}`)
     const data = await res.json()
     setState(draftState => { draftState.message = data.message; });
   }
@@ -45,8 +48,8 @@ function BetterEvents() {
       </Accordion>
       <Row data-id="ui">
         <Col xs={12} lg={2} className="mb-3" data-id="home-button"><Link to="/"><Button variant="outline-light" size="lg"><HouseFill /></Button></Link></Col>
-        <Col xs={12} lg={3} className="mb-3" data-id="date-selector"><input type="date" style={{ backgroundColor: '#211e1b', color: 'white', border: '1px solid white', borderRadius: '4px', padding: '4px', colorScheme: 'dark' }} /></Col>
-        <Col xs={12} lg={3} className="mb-3" data-id="time-selector"><input type="time" defaultValue="00:00" style={{ backgroundColor: '#211e1b', color: 'white', border: '1px solid white', borderRadius: '4px', padding: '4px', colorScheme: 'dark' }} /></Col>
+        <Col xs={12} lg={3} className="mb-3" data-id="date-selector"><input type="date" value={state.date} onChange={e => setState(draft_state => { draft_state.date = e.target.value })} style={{ backgroundColor: '#211e1b', color: 'white', border: '1px solid white', borderRadius: '4px', padding: '4px', colorScheme: 'dark' }} /></Col>
+        <Col xs={12} lg={3} className="mb-3" data-id="time-selector"><input type="time" value={state.time} onChange={e => setState(draft_state => { draft_state.time = e.target.value })} style={{ backgroundColor: '#211e1b', color: 'white', border: '1px solid white', borderRadius: '4px', padding: '4px', colorScheme: 'dark' }} /></Col>
         <Col xs={12} lg={2} className="mb-3" data-id="city-selector">
           <select style={{ backgroundColor: '#211e1b', color: 'white', border: '1px solid white', borderRadius: '4px', padding: '4px' }}>
             <option value="portland">Portland</option>
