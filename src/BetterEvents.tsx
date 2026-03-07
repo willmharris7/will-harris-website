@@ -13,8 +13,8 @@ function BetterEvents() {
 
   async function testPing() {
     const res = await fetch(`/api/hello?date=${state.date}&time=${state.time}&city=${state.city}`)
-    const data = await res.json()
-    setState(draftState => { draftState.message = data.message; });
+    const data = await res.text()
+    setState(draftState => { draftState.message = data; });
   }
 
   return (
