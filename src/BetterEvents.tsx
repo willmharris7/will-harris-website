@@ -4,17 +4,19 @@ import { HouseFill } from 'react-bootstrap-icons'
 import { useImmer } from 'use-immer'
 
 function BetterEvents() {
-  const [state, setState] = useImmer({ 
+  const [state, setState] = useImmer({
     date: new Date().toISOString().split('T')[0],
     time: "00:00",
     city: "Portland",
+    loading: false,
     card_data: [] as { href: string; img: string; title: string; time: string; group: string; attendees: string }[]
   });
 
   async function testPing() {
+    setState(draft => { draft.loading = true; draft.card_data = []; });
     const res = await fetch(`/api/scrapeMeetup?date=${state.date}&time=${state.time}&city=${state.city}`)
     const data = await res.json()
-    setState(draftState => { draftState.card_data = data; });
+    setState(draftState => { draftState.card_data = data; draftState.loading = false; });
   }
 
   return (
@@ -60,7 +62,14 @@ function BetterEvents() {
       <Row data-id="get-events" className="mt-5">
         <Col data-id="get-events-button"><Button variant="outline-light" size="lg" onClick={testPing}>Get events</Button></Col>
       </Row>
-      <Row data-id="meetup" className="justify-content-center">{state.card_data.map((item, i) => (
+      <Row data-id="meetup" className="justify-content-center mt-4">
+        {state.loading && (
+          <div className="d-flex justify-content-center align-items-center" style={{ height: '6rem' }}>
+            <div className="me-3">Loading Meetup Events (30 seconds) </div>
+            <div className="spinner-border text-light" style={{ width: '3rem', height: '3rem' }} role="status"></div>
+          </div>
+        )}
+        {state.card_data.map((item, i) => (
         <Card key={i} bg="dark" text="white" style={{width: '35rem'}}>
             <Card.Img variant="top" style={{height: '17rem', objectFit: 'cover'}} src={item.img}/>
             <Card.Body>
@@ -71,7 +80,7 @@ function BetterEvents() {
               <Card.Link href={item.href} target="_blank">View Event</Card.Link>
             </Card.Body>
           </Card>
-      ))}</Row>
+        ))}</Row>
       <Row data-id="eventbrite"></Row>
     </div>
   )
