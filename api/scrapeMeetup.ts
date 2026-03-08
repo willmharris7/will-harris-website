@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import * as cheerio from 'cheerio';
 import { writeFileSync } from 'fs';
+import meetupPuppetCode from '../apiFunctions/meetupPuppetCode';
 
 const BROWSERLESS_API_KEY = process.env.BROWSERLESS_API_KEY;
 
@@ -14,15 +15,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            code: `export default async ({ page, context }) => {
-                await page.goto(context.url, { waitUntil: 'domcontentloaded', timeout: 60000 });
-                await page.waitForSelector('a[data-event-label="Event Card"]');
-                for (let i = 0; i < 5; i++) {
-                    await page.evaluate(() => window.scrollBy(0, window.innerHeight));
-                    await new Promise(r => setTimeout(r, 500));
-                }
-                return { data: await page.content(), type: 'application/html' };
-            }`,
+            code: `export default ${meetupPuppetCode.toString()}`,
             context: { url: meetupUrl },
         }),
     });

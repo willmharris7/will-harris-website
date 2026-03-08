@@ -8,13 +8,13 @@ function BetterEvents() {
     date: new Date().toISOString().split('T')[0],
     time: "00:00",
     city: "Portland",
-    message: "Call not sent"
+    card_data: [] as { href: string; img: string; title: string; time: string; group: string; attendees: string }[]
   });
 
   async function testPing() {
     const res = await fetch(`/api/scrapeMeetup?date=${state.date}&time=${state.time}&city=${state.city}`)
-    const data = await res.text()
-    setState(draftState => { draftState.message = data; });
+    const data = await res.json()
+    setState(draftState => { draftState.card_data = data; });
   }
 
   return (
@@ -60,7 +60,15 @@ function BetterEvents() {
       <Row data-id="get-events" className="mt-5">
         <Col data-id="get-events-button"><Button variant="outline-light" size="lg" onClick={testPing}>Get events</Button></Col>
       </Row>
-      <Row data-id="meetup">{state.message}</Row>
+      <Row data-id="meetup">{state.card_data.map((item, i) => (
+        <div key={i} className="card">
+            <img src={item.img}/>
+            <h3>{item.title}</h3>
+            <p>{item.time}</p>
+            <p>Attendees: {item.attendees}</p>
+            <a href={item.href} target="_blank">View Event</a>
+          </div>
+      ))}</Row>
       <Row data-id="eventbrite"></Row>
     </div>
   )
