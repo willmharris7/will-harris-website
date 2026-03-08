@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Row, Col, Accordion, Button } from 'react-bootstrap'
+import { Row, Col, Accordion, Button, Card } from 'react-bootstrap'
 import { HouseFill } from 'react-bootstrap-icons'
 import { useImmer } from 'use-immer'
 
@@ -60,14 +60,17 @@ function BetterEvents() {
       <Row data-id="get-events" className="mt-5">
         <Col data-id="get-events-button"><Button variant="outline-light" size="lg" onClick={testPing}>Get events</Button></Col>
       </Row>
-      <Row data-id="meetup">{state.card_data.map((item, i) => (
-        <div key={i} className="card">
-            <img src={item.img}/>
-            <h3>{item.title}</h3>
-            <p>{item.time}</p>
-            <p>Attendees: {item.attendees}</p>
-            <a href={item.href} target="_blank">View Event</a>
-          </div>
+      <Row data-id="meetup" className="justify-content-center">{state.card_data.map((item, i) => (
+        <Card key={i} bg="dark" text="white" style={{width: '35rem'}}>
+            <Card.Img variant="top" style={{height: '17rem', objectFit: 'cover'}} src={item.img}/>
+            <Card.Body>
+              <Card.Text style={{fontSize: '2.5rem'}}><strong>{item.title}</strong></Card.Text>
+              <Card.Text>{item.time}</Card.Text>
+              <Card.Text>{item.group}</Card.Text>
+              <Card.Text>{item.attendees}</Card.Text>
+              <Card.Link href={item.href} target="_blank">View Event</Card.Link>
+            </Card.Body>
+          </Card>
       ))}</Row>
       <Row data-id="eventbrite"></Row>
     </div>
