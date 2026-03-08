@@ -10,7 +10,7 @@ function BetterEvents() {
     city: "Portland",
     loading_meetup: false,
     loading_eventbrite: false,
-    checkbox_meetup: true,
+    checkbox_meetup: false,
     checkbox_eventbrite: true,
     card_data_meetup: [] as { href: string; img: string; title: string; time: string; group: string; attendees: string }[],
     card_data_eventbrite: [] as { href: string; img: string; title: string; time: string; price: string;}[],
@@ -18,13 +18,19 @@ function BetterEvents() {
 
   async function pingServer() {
     if (state.checkbox_meetup) {
-      setState(draft => { draft.loading_meetup = true; draft.card_data_meetup = []; });
-      const res = await fetch(`/api/server?date=${state.date}&time=${state.time}&city=${state.city}`)
-      const data = await res.json()
-      setState(draftState => { draftState.card_data_meetup = data; draftState.loading_meetup = false; });
-    }
+      setState(draft => { draft.loading_meetup = true;});
+    } 
     if (state.checkbox_eventbrite) {
-      setState(draft => { draft.loading_eventbrite = true; draft.card_data_eventbrite = []; });
+      setState(draft => { draft.loading_eventbrite = true;});
+    }
+    const res = await fetch(`/api/server?date=${state.date}&time=${state.time}&city=${state.city}&meetup=${state.checkbox_meetup}&eventbrite=${state.checkbox_eventbrite}`)
+    const data = await res.json()
+    if (state.checkbox_meetup) {
+      setState(draftState => { draftState.card_data_meetup = data; draftState.loading_meetup = false; });
+    } 
+    if (state.checkbox_eventbrite) {
+      setState(draftState => {draftState.loading_eventbrite = false; });
+      console.log(data)
     }
     
   }

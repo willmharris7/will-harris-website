@@ -1,5 +1,4 @@
 import * as cheerio from 'cheerio';
-import { writeFileSync } from 'fs';
 import meetupPuppetCode from './meetupPuppetCode';
 
 const BROWSERLESS_API_KEY = process.env.BROWSERLESS_API_KEY;
@@ -18,7 +17,6 @@ export default async function scrapeMeetup(date: string, time: string, city: str
         }),
     });
     const html_json = await response.text();
-    writeFileSync('response.json', html_json);
     const html_parsed = JSON.parse(html_json);
     const document = cheerio.load(html_parsed.data);
     return document('a[data-event-label="Event Card"]').map((_, a) => ({
