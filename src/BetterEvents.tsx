@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Row, Col, Accordion, Button, Card } from 'react-bootstrap'
+import { Row, Col, Accordion, Button, Card, Spinner } from 'react-bootstrap'
 import { HouseFill } from 'react-bootstrap-icons'
 import { useImmer } from 'use-immer'
 
@@ -66,7 +66,7 @@ function BetterEvents() {
         {state.loading && (
           <div className="d-flex justify-content-center align-items-center" style={{ height: '6rem' }}>
             <div className="me-3">Loading Meetup Events (30 seconds) </div>
-            <div className="spinner-border text-light" style={{ width: '3rem', height: '3rem' }} role="status"></div>
+            <Spinner animation="border" variant="light" style={{ width: '3rem', height: '3rem' }} />
           </div>
         )}
         {state.card_data.map((item, i) => (
