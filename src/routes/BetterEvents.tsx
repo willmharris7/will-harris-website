@@ -19,7 +19,7 @@ function BetterEvents() {
   async function pingServer() {
     if (state.checkbox_meetup) {
       setState(draft => { draft.loading_meetup = true; draft.card_data_meetup = []; });
-      const res = await fetch(`/api/scrapeMeetup?date=${state.date}&time=${state.time}&city=${state.city}`)
+      const res = await fetch(`/api/server?date=${state.date}&time=${state.time}&city=${state.city}`)
       const data = await res.json()
       setState(draftState => { draftState.card_data_meetup = data; draftState.loading_meetup = false; });
     }
