@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Row, Col, Accordion, Button, Card, Spinner } from 'react-bootstrap'
+import { Row, Col, Accordion, Button, Card, Spinner, Form } from 'react-bootstrap'
 import { HouseFill } from 'react-bootstrap-icons'
 import { useImmer } from 'use-immer'
 
@@ -9,6 +9,8 @@ function BetterEvents() {
     time: "00:00",
     city: "Portland",
     loading: false,
+    meetup: true,
+    eventbrite: true,
     card_data: [] as { href: string; img: string; title: string; time: string; group: string; attendees: string }[]
   });
 
@@ -59,8 +61,12 @@ function BetterEvents() {
         </Col>
         <Col xs={12} lg={2} data-id="blocklist">Blocklist</Col>
       </Row>
-      <Row data-id="get-events" className="mt-5">
-        <Col data-id="get-events-button"><Button variant="outline-light" size="lg" onClick={testPing}>Get events</Button></Col>
+      <Row data-id="get-events" className="mt-5 justify-content-center align-items-center">
+        <Col xs="auto"><Button variant="outline-light" size="lg" onClick={testPing}>Get events</Button></Col>
+        <Col xs="auto" className="d-flex gap-3">
+          <Form.Check type="checkbox" label="Meetup" checked={state.meetup} onChange={e => setState(draft => { draft.meetup = e.target.checked })} className="text-white" />
+          <Form.Check type="checkbox" label="Eventbrite" checked={state.eventbrite} onChange={e => setState(draft => { draft.eventbrite = e.target.checked })} className="text-white" />
+        </Col>
       </Row>
       <Row data-id="meetup" className="justify-content-center mt-4">
         {state.loading && (
