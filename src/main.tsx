@@ -3,8 +3,8 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
-import Homepage from './Homepage.tsx'
-import BetterEvents from './BetterEvents.tsx'
+import Homepage from './routes/Homepage.tsx'
+import BetterEvents from './routes/BetterEvents.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
