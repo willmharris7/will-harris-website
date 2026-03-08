@@ -8,17 +8,21 @@ function BetterEvents() {
     date: new Date().toISOString().split('T')[0],
     time: "00:00",
     city: "Portland",
-    loading: false,
-    meetup: true,
-    eventbrite: true,
+    loading_meetup: false,
+    loading_eventbrite: false,
+    checkbox_meetup: true,
+    checkbox_eventbrite: true,
     card_data: [] as { href: string; img: string; title: string; time: string; group: string; attendees: string }[]
   });
 
-  async function testPing() {
-    setState(draft => { draft.loading = true; draft.card_data = []; });
-    const res = await fetch(`/api/scrapeMeetup?date=${state.date}&time=${state.time}&city=${state.city}`)
-    const data = await res.json()
-    setState(draftState => { draftState.card_data = data; draftState.loading = false; });
+  async function pingServer() {
+    if (state.checkbox_meetup) {
+      setState(draft => { draft.loading_meetup = true; draft.card_data = []; });
+      const res = await fetch(`/api/scrapeMeetup?date=${state.date}&time=${state.time}&city=${state.city}`)
+      const data = await res.json()
+      setState(draftState => { draftState.card_data = data; draftState.loading_meetup = false; });
+    }
+    
   }
 
   return (
@@ -62,14 +66,14 @@ function BetterEvents() {
         <Col xs={12} lg={2} data-id="blocklist">Blocklist</Col>
       </Row>
       <Row data-id="get-events" className="mt-5 justify-content-center align-items-center">
-        <Col xs="auto"><Button variant="outline-light" size="lg" onClick={testPing}>Get events</Button></Col>
+        <Col xs="auto"><Button variant="outline-light" size="lg" onClick={pingServer}>Get events</Button></Col>
         <Col xs="auto" className="d-flex gap-3">
-          <Form.Check type="checkbox" label="Meetup" checked={state.meetup} onChange={e => setState(draft => { draft.meetup = e.target.checked })} className="text-white" />
-          <Form.Check type="checkbox" label="Eventbrite" checked={state.eventbrite} onChange={e => setState(draft => { draft.eventbrite = e.target.checked })} className="text-white" />
+          <Form.Check type="checkbox" label="Meetup" checked={state.checkbox_meetup} onChange={e => setState(draft => { draft.checkbox_meetup = e.target.checked })} className="text-white" />
+          <Form.Check type="checkbox" label="Eventbrite" checked={state.checkbox_eventbrite} onChange={e => setState(draft => { draft.checkbox_eventbrite = e.target.checked })} className="text-white" />
         </Col>
       </Row>
       <Row data-id="meetup" className="justify-content-center mt-4">
-        {state.loading && (
+        {state.loading_meetup && (
           <div className="d-flex justify-content-center align-items-center" style={{ height: '6rem' }}>
             <div className="me-3">Loading Meetup Events (30 seconds) </div>
             <Spinner animation="border" variant="light" style={{ width: '3rem', height: '3rem' }} />
@@ -87,7 +91,14 @@ function BetterEvents() {
             </Card.Body>
           </Card>
         ))}</Row>
-      <Row data-id="eventbrite"></Row>
+      <Row data-id="eventbrite">
+        {state.loading_eventbrite && (
+          <div className="d-flex justify-content-center align-items-center" style={{ height: '6rem' }}>
+            <div className="me-3">Loading Eventbrite Events (30 seconds) </div>
+            <Spinner animation="border" variant="light" style={{ width: '3rem', height: '3rem' }} />
+          </div>
+        )}
+      </Row>
     </div>
   )
 }
