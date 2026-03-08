@@ -12,15 +12,18 @@ function BetterEvents() {
     loading_eventbrite: false,
     checkbox_meetup: true,
     checkbox_eventbrite: true,
-    card_data: [] as { href: string; img: string; title: string; time: string; group: string; attendees: string }[]
+    meetup_card_data: [] as { href: string; img: string; title: string; time: string; group: string; attendees: string }[]
   });
 
   async function pingServer() {
     if (state.checkbox_meetup) {
-      setState(draft => { draft.loading_meetup = true; draft.card_data = []; });
+      setState(draft => { draft.loading_meetup = true; draft.meetup_card_data = []; });
       const res = await fetch(`/api/scrapeMeetup?date=${state.date}&time=${state.time}&city=${state.city}`)
       const data = await res.json()
-      setState(draftState => { draftState.card_data = data; draftState.loading_meetup = false; });
+      setState(draftState => { draftState.meetup_card_data = data; draftState.loading_meetup = false; });
+    }
+    if (state.checkbox_eventbrite) {
+      
     }
     
   }
@@ -79,7 +82,7 @@ function BetterEvents() {
             <Spinner animation="border" variant="light" style={{ width: '3rem', height: '3rem' }} />
           </div>
         )}
-        {state.card_data.map((item, i) => (
+        {state.meetup_card_data.map((item, i) => (
         <Card key={i} bg="dark" text="white" style={{width: '35rem'}}>
             <Card.Img variant="top" style={{height: '17rem', objectFit: 'cover'}} src={item.img}/>
             <Card.Body>
