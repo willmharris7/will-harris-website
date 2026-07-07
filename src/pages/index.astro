@@ -13,5 +13,37 @@
 	</head>
 	<body>
 		<h1>Hello, World!</h1>
+		<div class="bio">
+			<div class="bio-photo">
+				<img src={`${import.meta.env.BASE_URL}/image.png`.replace(/\/+/g, '/')} alt="Portrait" />
+			</div>
+			<div class="bio-text">
+				<p>my bio</p>
+			</div>
+		</div>
 	</body>
 </html>
+
+<style>
+	.bio {
+		display: flex;
+		gap: 2rem;
+		align-items: flex-start;
+		margin-top: 2rem;
+	}
+
+	.bio-photo {
+		flex: 0 0 auto;
+		width: 240px;
+	}
+
+	.bio-photo img {
+		width: 100%;
+		height: auto;
+		border-radius: 0.5rem;
+	}
+
+	.bio-text {
+		flex: 1;
+	}
+</style>
