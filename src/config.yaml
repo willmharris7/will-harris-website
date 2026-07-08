@@ -1,5 +1,5 @@
 site:
-  name: AstroWind
+  name: Hello World
   site: 'https://willmharris7.github.io'
   base: '/will-harris-website'
   trailingSlash: false
@@ -9,14 +9,14 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: AstroWind
-    template: '%s — AstroWind'
-  description: "\U0001F680 Suitable for Startups, Small Business, Sass Websites, Professional Portfolios, Marketing Websites, Landing Pages & Blogs."
+    default: Hello World
+    template: '%s — Hello World'
+  description: 'Hello World'
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: AstroWind
+    site_name: Hello World
     images:
       - url: '~/assets/images/default.png'
         width: 1200
@@ -33,7 +33,7 @@ i18n:
 
 apps:
   blog:
-    isEnabled: true
+    isEnabled: false
     postsPerPage: 6
 
     post:
