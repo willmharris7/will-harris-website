@@ -1,4 +1,5 @@
 ---
+import Image from '~/components/common/Image.astro';
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
@@ -7,7 +8,16 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <div class="flex items-center justify-center min-h-[70vh]">
+  <div class="flex flex-col items-center justify-center gap-6 min-h-[70vh]">
     <h1 class="text-5xl font-bold">Hi, I'm Will</h1>
+    <Image
+      src="~/assets/images/IMG_0975.jpeg"
+      alt="Will"
+      width={320}
+      height={320}
+      layout="fixed"
+      class="rounded-full object-cover"
+      format="webp"
+    />
   </div>
 </Layout>
